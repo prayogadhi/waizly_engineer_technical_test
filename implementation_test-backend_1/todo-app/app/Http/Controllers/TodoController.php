@@ -41,7 +41,6 @@ class TodoController extends Controller
         $validated = $request->validate([
             'title' => 'string|max:255',
             'description' => 'nullable|string',
-            'completed' => 'required|boolean',
         ]);
         $todo = Todo::findOrFail($id);
         $todo->update($validated);
@@ -49,6 +48,15 @@ class TodoController extends Controller
             'message' => 'Updated successfully',
             'todo' => $todo
         ], 200);
+    }
+
+    public function toggleCompleted($id)
+    {
+        $todo = Todo::findOrFail($id);
+        $todo->completed = !$todo->completed;
+        $todo->save();
+
+        return response()->json($todo);
     }
 
     public function destroy($id)

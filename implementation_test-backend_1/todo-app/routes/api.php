@@ -21,6 +21,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::get('user', [AuthController::class, 'me']);
     Route::put('/todos/{id}', [TodoController::class, 'update']);
+    Route::put('/todos/{id}/toggle', [TodoController::class, 'toggleCompleted']);
     Route::apiResource('todos', TodoController::class);
     Route::post('logout', [AuthController::class, 'logout']);
 });
