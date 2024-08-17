@@ -1,0 +1,24 @@
+1. SELECT * FROM employees;
+
+2. SELECT COUNT(employee_id) FROM employees WHERE job_title = 'Manager';
+
+3. SELECT name, salary FROM employees WHERE department = 'Sales' OR department = 'Marketing';
+
+4. SELECT AVG(salary) FROM employees WHERE joined_date > DATE_SUB(CURDATE(), INTERVAL 5 YEAR);
+
+5. SELECT name, SUM(sales_data.sales) as total_sales FROM employees JOIN sales_data ON employees.employee_id = sales_data.employee_id GROUP BY sales_data.employee_id ORDER BY total_sales DESC LIMIT 5
+
+6. SELECT e.name, e.salary, d.avg_salary FROM employees e
+   JOIN (
+       SELECT department, AVG(salary) AS avg_salary
+       FROM employees
+       GROUP BY department
+       ORDER BY avg_salary DESC
+       LIMIT 1 
+   ) d ON e.department = d.department;
+
+7. SELECT name, SUM(sales_data.sales) as total_sales, RANK() OVER ( ORDER BY total_sales DESC) as sales_rank FROM employees JOIN sales_data ON employees.employee_id = sales_data.employee_id GROUP BY sales_data.employee_id ORDER BY sales_rank ASC
+
+8. CREATE DEFINER=`root`@`localhost` PROCEDURE `db_marketing`.`getEmployeeByDepartment`(IN `param` VARCHAR(100))
+NO SQL
+SELECT name, salary FROM `employees` WHERE department = param;
